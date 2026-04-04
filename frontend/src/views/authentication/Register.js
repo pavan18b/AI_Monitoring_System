@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box, Card, Typography, Stack } from '@mui/material';
+import { Box, Card, Typography, Stack } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import PageContainer from 'src/components/container/PageContainer';
 import AuthRegister from './AuthRegister';
