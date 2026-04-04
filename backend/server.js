@@ -9,10 +9,8 @@ import codingRoutes from "./routes/codingRoutes.js";
 import resultRoutes from "./routes/resultRoutes.js";
 import { exec } from "child_process";
 import { writeFileSync } from "fs";
-import path from "path";
 import cors from "cors";
 import examLogRoutes from "./routes/examLogRoutes.js";
-
 
 dotenv.config();
 connectDB();
@@ -25,11 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// 🔥 FIXED CORS (IMPORTANT)
+// ✅ FIXED CORS (ALLOW RENDER + LOCAL)
 app.use(
   cors({
-    origin: "http://localhost:3000", // ✅ EXACT FRONTEND URL
-    credentials: true,              // ✅ REQUIRED FOR COOKIES
+    origin: "*", // 🔥 allow all (for now)
+    credentials: true,
   })
 );
 
@@ -70,20 +68,13 @@ app.use("/api/exams", examRoutes);
 app.use("/api/results", resultRoutes);
 app.use("/api/coding", codingRoutes);
 app.use("/api/exam-logs", examLogRoutes);
-// ================= PRODUCTION =================
-if (process.env.NODE_ENV === "production") {
-  const __dirname = path.resolve();
 
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
-
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
-  );
-} else {
-  app.get("/", (req, res) => {
-    res.send("<h1>Server is running</h1>");
+// ================= ROOT ROUTE =================
+app.get("/", (req, res) => {
+  res.json({
+    message: "API is running 🚀",
   });
-}
+});
 
 // ================= ERROR HANDLING =================
 app.use(notFound);
