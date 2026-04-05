@@ -23,31 +23,33 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// ✅ 🔥 FINAL CORS FIX (IMPORTANT)
+// ✅ ALLOWED ORIGINS
 const allowedOrigins = [
   "http://localhost:3000",
   "https://ai-monitoring-system-lovat.vercel.app",
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (like Postman)
-      if (!origin) return callback(null, true);
+// ✅ CORS OPTIONS (REUSABLE CONFIG)
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin); // 🔥 debug
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+};
 
-// ✅ 🔥 HANDLE PREFLIGHT REQUESTS (VERY IMPORTANT)
-app.options("*", cors());
+// ✅ APPLY CORS
+app.use(cors(corsOptions));
+
+// ✅ HANDLE PREFLIGHT (IMPORTANT FIX)
+app.options("*", cors(corsOptions));
 
 // ================= CODE EXECUTION =================
 app.post("/run-python", (req, res) => {
@@ -89,9 +91,7 @@ app.use("/api/exam-logs", examLogRoutes);
 
 // ================= ROOT ROUTE =================
 app.get("/", (req, res) => {
-  res.json({
-    message: "API is running 🚀",
-  });
+  res.json({ message: "API is running 🚀" });
 });
 
 // ================= ERROR HANDLING =================
