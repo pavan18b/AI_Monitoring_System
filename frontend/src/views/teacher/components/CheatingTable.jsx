@@ -19,8 +19,8 @@ const CheatingTable = () => {
 
   const fetchLogs = async () => {
     try {
-      // 🔥 FORCE FULL URL (for debugging)
-      const res = await axios.get("http://localhost:5000/api/exam-logs");
+      // ✅ USE AXIOS BASE URL (NO LOCALHOST)
+      const res = await axios.get("/exam-logs");
 
       console.log("DATA:", res.data);
 
