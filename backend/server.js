@@ -26,7 +26,10 @@ app.use(cookieParser());
 // ✅ FIXED CORS (ALLOW RENDER + LOCAL)
 app.use(
   cors({
-    origin: "*", // 🔥 allow all (for now)
+    origin: [
+      "http://localhost:3000",
+      "https://ai-monitoring-system-lovat.vercel.app",
+    ],
     credentials: true,
   })
 );
