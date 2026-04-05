@@ -23,32 +23,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// ✅ ALLOWED ORIGINS
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://ai-monitoring-system-lovat.vercel.app",
-];
-
-// ✅ CORS OPTIONS (REUSABLE CONFIG)
+// ✅ 🔥 FINAL DYNAMIC CORS FIX (BEST)
 const corsOptions = {
   origin: function (origin, callback) {
+    // allow Postman / server-to-server
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
+    // allow localhost + ALL vercel deployments
+    if (
+      origin.includes("localhost") ||
+      origin.includes("vercel.app")
+    ) {
       return callback(null, true);
-    } else {
-      console.log("Blocked by CORS:", origin); // 🔥 debug
-      return callback(new Error("Not allowed by CORS"));
     }
+
+    console.log("❌ Blocked by CORS:", origin);
+    return callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
 
-// ✅ APPLY CORS
+// APPLY CORS
 app.use(cors(corsOptions));
 
-// ✅ HANDLE PREFLIGHT (IMPORTANT FIX)
+// HANDLE PREFLIGHT REQUESTS
 app.options("*", cors(corsOptions));
 
 // ================= CODE EXECUTION =================
@@ -89,7 +88,7 @@ app.use("/api/results", resultRoutes);
 app.use("/api/coding", codingRoutes);
 app.use("/api/exam-logs", examLogRoutes);
 
-// ================= ROOT ROUTE =================
+// ================= ROOT =================
 app.get("/", (req, res) => {
   res.json({ message: "API is running 🚀" });
 });
@@ -100,6 +99,6 @@ app.use(errorHandler);
 
 // ================= SERVER =================
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`🚀 Server running on http://localhost:${port}`);
   console.log("JWT Secret:", process.env.JWT_SECRET);
 });
