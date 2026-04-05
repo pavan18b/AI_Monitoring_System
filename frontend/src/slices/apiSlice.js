@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://localhost:5000/api',
+  baseUrl: "https://ai-monitoring-system-3.onrender.com/api",
   credentials: 'include',
 
   // 🔥 ADD THIS (MAIN FIX)
