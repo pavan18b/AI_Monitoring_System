@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://ai-monitoring-system-mwxa.onrender.com/api",
+  baseURL: "https://ai-monitoring-system-3.onrender.com/api",
 });
 
 // ✅ ADD TOKEN TO EVERY REQUEST
