@@ -23,16 +23,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// ✅ FIXED CORS (ALLOW RENDER + LOCAL)
+// ✅ 🔥 FINAL CORS FIX (IMPORTANT)
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://ai-monitoring-system-lovat.vercel.app",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://ai-monitoring-system-lovat.vercel.app",
-    ],
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
+// ✅ 🔥 HANDLE PREFLIGHT REQUESTS (VERY IMPORTANT)
+app.options("*", cors());
 
 // ================= CODE EXECUTION =================
 app.post("/run-python", (req, res) => {
