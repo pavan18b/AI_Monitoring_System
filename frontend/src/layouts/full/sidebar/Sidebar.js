@@ -7,21 +7,24 @@ const Sidebar = (props) => {
 
   const sidebarWidth = "270px";
 
-  // 🎨 GLASS SIDEBAR STYLE
- const sidebarStyle = {
-  width: sidebarWidth,
-  boxSizing: "border-box",
+  // 🎨 IMPROVED PREMIUM SIDEBAR STYLE
+  const sidebarStyle = {
+    width: sidebarWidth,
+    boxSizing: "border-box",
 
-  // 💎 NEW PREMIUM COLOR
-  backdropFilter: "blur(20px)",
-  background: "rgba(30, 41, 59, 0.85)", // 🔥 NEW COLOR
+    // 🔥 DARK BLUE GRADIENT (BEST LOOK)
+    background: "linear-gradient(180deg, #0f172a 0%, #1e293b 100%)",
 
-  // ✨ BORDER + DEPTH
-  borderRight: "1px solid rgba(255,255,255,0.1)",
-  boxShadow: "0 10px 40px rgba(0,0,0,0.5)",
+    // 💎 GLASS EFFECT
+    backdropFilter: "blur(16px)",
 
-  color: "#e2e8f0",
-};
+    // ✨ BORDER + SHADOW
+    borderRight: "1px solid rgba(255,255,255,0.08)",
+    boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
+
+    // TEXT COLOR
+    color: "#e2e8f0",
+  };
 
   if (lgUp) {
     return (
@@ -41,6 +44,7 @@ const Sidebar = (props) => {
                 px: 3,
                 py: 2,
                 gap: 2,
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
               }}
             >
               <Logo />
@@ -79,6 +83,7 @@ const Sidebar = (props) => {
           alignItems: "center",
           px: 2,
           py: 2,
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
         }}
       >
         <Logo />
@@ -91,7 +96,7 @@ const Sidebar = (props) => {
             ml: 1,
           }}
         >
-          
+          APS
         </Typography>
       </Box>
 

@@ -1,40 +1,52 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-// mui imports
+import React from "react";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+
+// MUI
 import {
   ListItemIcon,
   ListItem,
   List,
   styled,
   ListItemText,
-  useTheme
-} from '@mui/material';
+} from "@mui/material";
 
 const NavItem = ({ item, level, pathDirect, onClick }) => {
   const Icon = item.icon;
-  const theme = useTheme();
-  const itemIcon = <Icon stroke={1.5} size="1.3rem" />;
+  const itemIcon = <Icon stroke={1.8} size="1.4rem" />;
 
+  // 🔥 PREMIUM NEON STYLE
   const ListItemStyled = styled(ListItem)(() => ({
-    whiteSpace: 'nowrap',
-    marginBottom: '2px',
-    padding: '8px 10px',
-    borderRadius: '8px',
-    backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
-    color:
-      theme.palette.text.secondary,
-    paddingLeft: '10px',
-    '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.main,
+    whiteSpace: "nowrap",
+    marginBottom: "6px",
+    padding: "12px 14px",
+    borderRadius: "12px",
+
+    color: "#cbd5e1",
+    backgroundColor: "transparent",
+
+    transition: "all 0.25s ease",
+
+    // ✨ HOVER EFFECT
+    "&:hover": {
+      background: "rgba(99,102,241,0.15)",
+      color: "#fff",
+      transform: "translateX(6px)",
+
+      boxShadow: "0 0 10px rgba(99,102,241,0.6)",
     },
-    '&.Mui-selected': {
-      color: 'white',
-      backgroundColor: theme.palette.primary.main,
-      '&:hover': {
-        backgroundColor: theme.palette.primary.main,
-        color: 'white',
+
+    // 🎯 ACTIVE ITEM
+    "&.Mui-selected": {
+      background: "rgba(99,102,241,0.25)",
+      color: "#fff",
+      fontWeight: "600",
+      transform: "translateX(6px)",
+
+      boxShadow: "0 0 15px rgba(99,102,241,0.9)",
+
+      "&:hover": {
+        background: "rgba(99,102,241,0.35)",
       },
     },
   }));
@@ -43,26 +55,38 @@ const NavItem = ({ item, level, pathDirect, onClick }) => {
     <List component="li" disablePadding key={item.id}>
       <ListItemStyled
         button
-        component={item.external ? 'a' : NavLink}
+        component={item.external ? "a" : NavLink}
         to={item.href}
-        href={item.external ? item.href : ''}
+        href={item.external ? item.href : ""}
         disabled={item.disabled}
         selected={pathDirect === item.href}
-        target={item.external ? '_blank' : ''}
+        target={item.external ? "_blank" : ""}
         onClick={onClick}
       >
+        {/* 🔥 ICON WITH ANIMATION */}
         <ListItemIcon
           sx={{
-            minWidth: '36px',
-            p: '3px 0',
-            color: 'inherit',
+            minWidth: "36px",
+            color: "#94a3b8",
+            transition: "all 0.3s",
+
+            ".Mui-selected &": {
+              color: "#38bdf8",
+              transform: "scale(1.2)",
+            },
           }}
         >
           {itemIcon}
         </ListItemIcon>
-        <ListItemText>
-          <>{item.title}</>
-        </ListItemText>
+
+        {/* TEXT */}
+        <ListItemText
+          primary={item.title}
+          sx={{
+            color: "inherit",
+            fontWeight: 500,
+          }}
+        />
       </ListItemStyled>
     </List>
   );
