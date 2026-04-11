@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -9,15 +9,15 @@ import {
   Checkbox,
   IconButton,
   InputAdornment,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
-import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import CustomTextField from "../../components/forms/theme-elements/CustomTextField";
 
 const AuthLogin = ({ formik, title, subtitle, subtext }) => {
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik;
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    formik;
 
-  // 🔥 password toggle state
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -25,9 +25,25 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 420,
+        mx: "auto",
+        mt: 6,
+        p: 4,
+        borderRadius: "16px",
+
+        // 🔥 DARK CARD STYLE
+        background: "rgba(15, 23, 42, 0.9)",
+        backdropFilter: "blur(10px)",
+        boxShadow: "0 8px 30px rgba(0,0,0,0.6)",
+
+        color: "#e2e8f0",
+      }}
+    >
       {title && (
-        <Typography fontWeight="700" variant="h2" mb={1}>
+        <Typography fontWeight="700" variant="h4" mb={2} color="#fff">
           {title}
         </Typography>
       )}
@@ -42,6 +58,7 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
             <Typography variant="subtitle1" fontWeight={600} mb="5px">
               Email
             </Typography>
+
             <CustomTextField
               id="email"
               name="email"
@@ -54,6 +71,16 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
               helperText={touched.email && errors.email}
               required
               fullWidth
+              sx={{
+                input: { color: "#fff" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "#334155" },
+                  "&:hover fieldset": { borderColor: "#6366f1" },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#6366f1",
+                  },
+                },
+              }}
             />
           </Box>
 
@@ -62,10 +89,11 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
             <Typography variant="subtitle1" fontWeight={600} mb="5px">
               Password
             </Typography>
+
             <CustomTextField
               id="password"
               name="password"
-              type={showPassword ? 'text' : 'password'} // 👁️ toggle
+              type={showPassword ? "text" : "password"}
               variant="outlined"
               value={values.password}
               onChange={handleChange}
@@ -74,10 +102,24 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
               helperText={touched.password && errors.password}
               required
               fullWidth
+              sx={{
+                input: { color: "#fff" },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: "#334155" },
+                  "&:hover fieldset": { borderColor: "#6366f1" },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#6366f1",
+                  },
+                },
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword} edge="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                      sx={{ color: "#cbd5e1" }}
+                    >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
@@ -87,43 +129,59 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
           </Box>
 
           {/* OPTIONS */}
-          <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
+          <Stack
+            justifyContent="space-between"
+            direction="row"
+            alignItems="center"
+            my={2}
+          >
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={<Checkbox defaultChecked sx={{ color: "#6366f1" }} />}
                 label="Remember this Device"
               />
             </FormGroup>
 
             <Typography
               fontWeight="500"
-              sx={{ color: 'primary.main' }}
+              sx={{ color: "#6366f1", cursor: "pointer" }}
             >
               Forgot Password?
             </Typography>
           </Stack>
         </Stack>
 
-        {/* SUBMIT BUTTON */}
+        {/* BUTTON */}
         <Box>
           <Button
-            color="primary"
             variant="contained"
             size="large"
             fullWidth
             type="submit"
+            sx={{
+              mt: 1,
+              background: "#6366f1",
+              fontWeight: "bold",
+              "&:hover": {
+                background: "#4f46e5",
+              },
+            }}
           >
             Sign In
           </Button>
         </Box>
 
-        {/* 🔥 REGISTER LINK */}
+        {/* REGISTER */}
         <Box mt={2} textAlign="center">
-          <Typography variant="body2">
-            Don't have an account?{' '}
+          <Typography variant="body2" color="#94a3b8">
+            Don't have an account?{" "}
             <Link
               to="/auth/register"
-              style={{ color: '#1976d2', textDecoration: 'none', fontWeight: 500 }}
+              style={{
+                color: "#38bdf8",
+                textDecoration: "none",
+                fontWeight: 500,
+              }}
             >
               Register
             </Link>
@@ -132,7 +190,7 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
       </form>
 
       {subtitle}
-    </>
+    </Box>
   );
 };
 
