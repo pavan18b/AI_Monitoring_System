@@ -139,20 +139,35 @@ const TestPage = () => {
   }, [started, submitted]);
 
   // ================= SUBMIT =================
-  const handleSubmit = async (msg = "Submitted") => {
-    try {
-      if (!questions.length) return;
+const handleSubmit = async (msg = "Submitted") => {
+  try {
+    if (!questions.length) return;
 
-      await axios.post("/results", {
-        exam: examId,
-        answers,
-      });
-    } catch (err) {
-      console.error("SUBMIT ERROR:", err);
-    }
+    // ✅ CALCULATE SCORE
+    let score = 0;
 
-    setSubmitted(msg);
-  };
+    questions.forEach((q, i) => {
+      if (answers[i] === q.correctAnswer) {
+        score++;
+      }
+    });
+
+    const resultData = {
+      exam: examId,
+      score,
+      total: questions.length,
+      answers,
+      questions,
+    };
+
+    await axios.post("/results", resultData);
+
+  } catch (err) {
+    console.error("SUBMIT ERROR:", err);
+  }
+
+  setSubmitted(msg);
+};
 
   const handleCancelSubmit = async () => {
     const newViolation = violations + 1;

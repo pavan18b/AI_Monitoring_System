@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 // 🔑 GENERATE TOKEN
 const generateToken = (id) => {
-  return jwt.sign({ id }, "SECRET_KEY", {
+  return jwt.sign({ id }, process.env.JWT_SECRET || "SECRET_KEY", {
     expiresIn: "30d",
   });
 };
@@ -13,9 +13,20 @@ const generateToken = (id) => {
 export const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
+  console.log("Login Attempt:", email, password);
+
   const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
+  if (!user) {
+    console.log("User not found");
+    res.status(401);
+    throw new Error("Invalid email or password");
+  }
+
+  const isMatch = await user.matchPassword(password);
+  console.log("Password Match:", isMatch);
+
+  if (isMatch) {
     res.json({
       _id: user._id,
       name: user.name,
@@ -43,7 +54,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     name,
     email,
-    password,
+    password, // 🔥 WILL AUTO HASH
     role,
   });
 

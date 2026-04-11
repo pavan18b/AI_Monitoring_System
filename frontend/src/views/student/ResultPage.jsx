@@ -25,7 +25,7 @@ const ResultPage = () => {
 
   const fetchResults = async () => {
     try {
-      const url = isAdmin ? "/results/admin" : "/results/my";
+      const url = isAdmin ? "/results/all" : "/results/my";
       const res = await axios.get(url);
       setResults(res.data || []);
     } catch (err) {
